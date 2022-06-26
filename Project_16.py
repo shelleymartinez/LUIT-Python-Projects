@@ -3,13 +3,6 @@
 import boto3
 ec2_resource=boto3.resource("ec2")
 ec2_client=boto3.client("ec2")
-
-# create 3 instances
-ec2_resource.create_instances(
-    ImageId='ami-0d9858aa3c6322f73',
-    InstanceType='t2.micro',
-    MaxCount=6,
-    MinCount=3)
     
 # list instance ids
 response=ec2_client.describe_instances()
@@ -33,4 +26,8 @@ tag_creation = ec2_client.create_tags(
 )
 
 # stop instances
-response = ec2_client.stop_instances(InstanceIds=tagged_instances)
+for Instance_State in tagged_instances:
+    if Instance_State == "Running":
+        response = ec2_client.stop_instances(InstanceIds=tagged_instances)
+else:
+    print("nothing to stop")
