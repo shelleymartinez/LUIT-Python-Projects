@@ -12,16 +12,15 @@ ec2_resource.create_instances(
     MinCount=3)
     
 # list instance ids
-response = ec2_client = boto3.describe_instances()
-instances = response['Reservations']
+response=ec2_client.describe_instances()
+instances=response['Reservations']
 instance_ids = []
 
 for instance in instances:
-    instance_ids.append(instance['Instances'] [0] ['InstanceID'])
+    instance_ids.append(instance['Instances'] [0] ['InstanceId'])
 
 # tag 3 instances for Development team
-tagged_instances = [instance_ids[:3]]
-tag_creation= ec2_client.Tag('resource_id','key','value')
+tagged_instances = (instance_ids[:3])
 tag_creation = ec2_client.create_tags(
     Resources =
         tagged_instances,
@@ -34,5 +33,5 @@ tag_creation = ec2_client.create_tags(
 )
 
 # stop instances
-instances = [tagged_instances]
+instances = tagged_instances
 ec2_client.instances.filter(InstanceIds=instances).stop()
