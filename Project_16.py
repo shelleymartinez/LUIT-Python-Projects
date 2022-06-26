@@ -27,7 +27,7 @@ tag_creation = ec2_client.create_tags(
 
 # stop instances
 for Instance_State in tagged_instances:
-    if Instance_State == "running":
+    if Instance_State == "Running":
         response = ec2_client.stop_instances(InstanceIds=tagged_instances)
-    else:
-        print("nothing to stop")
+else:
+    print("nothing to stop")
