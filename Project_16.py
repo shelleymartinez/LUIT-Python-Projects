@@ -13,7 +13,7 @@ for instance in instances:
     instance_ids.append(instance['Instances'] [0] ['InstanceId'])
 
 # tag 3 instances for Development team
-tagged_instances = (instance_ids[1:4])
+tagged_instances = (instance_ids[1:5])
 tag_creation = ec2_client.create_tags(
     Resources =
         tagged_instances,
