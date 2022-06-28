@@ -1,33 +1,17 @@
-# A python script that you can run that will stop 3 instances
-
+# Stop 3 instances that are tagged: Envrionment: Dev and confirm they are running
 import boto3
-ec2_resource=boto3.resource("ec2")
-ec2_client=boto3.client("ec2")
+ec2_client = boto3.client('ec2')
+ec2 = boto3.resource('ec2')
+
+#Find instances that are tagged and running
+instances = ec2.instances.filter(
+    Filters = [{'Name': 'instance-state-name', 'Values': ['running']},
+    {'Name': 'tag:Environment', 'Values':['dev']}])
     
-# list instance ids
-response=ec2_client.describe_instances()
-instances=response['Reservations']
-instance_ids = []
-
+# try stop tagged instances
 for instance in instances:
-    instance_ids.append(instance['Instances'] [0] ['InstanceId'])
-
-# tag 3 instances for Development team
-tagged_instances = (instance_ids[1:5])
-tag_creation = ec2_client.create_tags(
-    Resources =
-        tagged_instances,
-    Tags = [
-        {
-            'Key':'Environment',
-            'Value': 'Dev'
-        }
-    ]
-)
-
-# stop instances
-for Instance_State in tagged_instances:
-    if Instance_State == "Running":
-        response = ec2_client.stop_instances(InstanceIds=tagged_instances)
-else:
-    print("nothing to stop")
+    try:
+        instance.stop()
+        print(f'{instance} stopped')
+    except:
+        print(f'Error stopping {instance}')
